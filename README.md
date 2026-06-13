@@ -1,15 +1,13 @@
-# Project Name
+# Fake News Detection
 
 Short description of what the app does.
 
 ## Features
 
-- User login
-- Dashboard
-- REST API
-- File upload
-- Search/filter
-- Admin panel
+- Reading news 
+- Vectorizing Test and Title of news
+- Detecting news using pretrained model
+- using llm model for reasoning
 
 ## Tech Stack
 
@@ -21,12 +19,13 @@ Frontend:
 Backend:
 - FastAPI
 - PostgreSQL
-- SQLAlchemy
-- JWT Auth
+
 
 DevOps:
 - Docker
 - Docker Compose
+- CI/CD
+- Github Action
 
 ## Project Structure
 
