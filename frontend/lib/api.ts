@@ -1,7 +1,7 @@
 import "server-only";
 
 export async function route(path: string, method: string, body?: any) {
-    const response = await fetch(`path`,{
+    const response = await fetch(path,{
         method: method,
         body: body ? JSON.stringify(body) : undefined,
         headers: {
