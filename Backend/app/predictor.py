@@ -62,6 +62,6 @@ class Predictor:
         prediction = 1 if probability >= 0.5 else 0
 
         return {
-            "label": "real" if prediction == 1 else "fake",
+            "label": True if prediction == 1 else False,
             "probability": probability
         }
