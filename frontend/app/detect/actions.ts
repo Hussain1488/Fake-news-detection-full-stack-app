@@ -3,7 +3,7 @@
 import {post} from "@/lib/api"
 
 export type DetectState =
-    | { ok: true, data: {reasoning: boolean, title: string, content: string, result: string}}
+    | { ok: true, data: {prediction:{ label: boolean, probability: number}}}
     | { ok: false, error: string}
     | null
 export async function detect( _prevState: DetectState, formData: FormData): Promise<DetectState> {
@@ -17,9 +17,12 @@ export async function detect( _prevState: DetectState, formData: FormData): Prom
 
     try{
 
-        
-    const response = await post(process.env.BACKEND_URL + "/api/detect", 
+    const start = performance.now();
+    const response = await  post(process.env.BACKEND_URL + "/api/detect", 
         {title, content, reasoning})
+    const end = performance.now();
+    console.log(`Time taken: ${end - start} milliseconds`);
+
         console.log(response);
         return { ok: true, data: response }
     } catch (error) {

@@ -1,20 +1,45 @@
-"use client" 
-import { useState, useActionState  } from "react"
+"use client"
+
+import { useState } from "react"
+import { useFormStatus } from "react-dom"
+import Loading from "@/components/loading"
 import { newsForm, Reasoning } from "./types"
 
 type Props = {
     formAction: (formData: FormData) => void
     initialState: newsForm
-    pending: boolean
 }
 
+function SubmitButton() {
+    const { pending } = useFormStatus()
 
+    return (
+        <button
+            disabled={pending}
+            className="w-full rounded-lg bg-zinc-900 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            type="submit"
+        >
+            {pending ? "Detecting..." : "Detect"}
+        </button>
+    )
+}
 
-export default function NewsForm({ formAction, initialState, pending }: Props){
+function FormLoading() {
+    const { pending } = useFormStatus()
 
-    const [title, setTitle] = useState(initialState.title);
-    const [content, setContent] = useState(initialState.content);
-    const [reasoning, setReasoning] = useState(initialState.reasoning);
+    if (!pending) return null
+
+    return (
+        <div className="pt-2">
+            <Loading variant="inline" message="Analyzing your article" />
+        </div>
+    )
+}
+
+export default function NewsForm({ formAction, initialState }: Props) {
+    const [title, setTitle] = useState(initialState.title)
+    const [content, setContent] = useState(initialState.content)
+    const [reasoning, setReasoning] = useState(initialState.reasoning)
 
     return (
         <section className="flex-1 bg-zinc-50 dark:bg-black">
@@ -28,7 +53,8 @@ export default function NewsForm({ formAction, initialState, pending }: Props){
                     </p>
                 </div>
 
-                <form action={formAction}
+                <form
+                    action={formAction}
                     className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950 sm:p-8"
                 >
                     <div className="space-y-6">
@@ -74,23 +100,31 @@ export default function NewsForm({ formAction, initialState, pending }: Props){
                             <select
                                 name="reasoning"
                                 value={reasoning === "on" ? Reasoning.ON : Reasoning.OFF}
-                                onChange={(e) => setReasoning(e.target.value === Reasoning.ON ? Reasoning.ON : Reasoning.OFF)}
+                                onChange={(e) =>
+                                    setReasoning(
+                                        e.target.value === Reasoning.ON ? Reasoning.ON : Reasoning.OFF
+                                    )
+                                }
                                 id="reasoning"
-                                className="w-full text-sm rounded-lg border-zinc-300 text-zinc-900 focus:ring-zinc-500 dark:border-zinc-600 dark:bg-zinc-900"
+                                className="w-full rounded-lg border-zinc-300 text-sm text-zinc-900 focus:ring-zinc-500 dark:border-zinc-600 dark:bg-zinc-900"
                             >
-                                <option className="text-zinc-900 dark:text-zinc-100 text-sm font-medium"  value={Reasoning.ON} >True</option>
-                                <option className="text-zinc-900 dark:text-zinc-100 text-sm font-medium"  value={Reasoning.OFF} >False</option>
+                                <option
+                                    className="text-sm font-medium text-zinc-900 dark:text-zinc-100"
+                                    value={Reasoning.ON}
+                                >
+                                    True
+                                </option>
+                                <option
+                                    className="text-sm font-medium text-zinc-900 dark:text-zinc-100"
+                                    value={Reasoning.OFF}
+                                >
+                                    False
+                                </option>
                             </select>
-                           
                         </label>
 
-                        <button
-                            disabled={pending}
-                            className="w-full rounded-lg bg-zinc-900 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 active:scale-[0.99] dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
-                            type="submit"
-                        >
-                            {pending ? "Detecting..." : "Detect"}
-                        </button>
+                        <SubmitButton />
+                        <FormLoading />
                     </div>
                 </form>
             </div>
