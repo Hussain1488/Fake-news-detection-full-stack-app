@@ -3,3 +3,9 @@ venv/
 FakeNewsDetection(1).ipynb
 /Backend/venv/
 /Backend/.env
+/Backend/app/.env
+/Backend/app/main.py
+/Backend/app/routes.py
+/Backend/app/routes.py
+
+/frontend/.env
