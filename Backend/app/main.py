@@ -2,11 +2,13 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from pydantic import BaseModel
+from typing import Dict
+from .router import router
 import os
 
 load_dotenv()
 
-app = FastAPI()
+app = FastAPI(title="Fake News Detection", description="Detect fake news using pretrained model and llm model for reasoning")
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,17 +18,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class DetectRequest(BaseModel):
-    title: str
-    content: str
-    reasoning: bool
 
-@app.post("/api/detect")
-async def detect(request: DetectRequest):
-    
-    return {
-        "title": request.title + " test", 
-        "content": request.content + " test", 
-        "reasoning": request.reasoning
-        }
-
+app.include_router(router)
