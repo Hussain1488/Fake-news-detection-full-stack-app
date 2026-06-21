@@ -1,0 +1,7 @@
+Fake news detection means checking if news is likely real or fake.
+
+It can use the title, the article text, the source, writing style, and missing evidence.
+
+Machine learning models can help, but they are not always correct.
+
+A fake news detector should explain that the result is only a prediction, not final truth.
