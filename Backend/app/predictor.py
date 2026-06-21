@@ -25,21 +25,21 @@ class FakeNewsClassifier(nn.Module):
 
 class Predictor:
     def __init__(self):
-        with open("app/models/config.json", "r") as f:
+        with open("app/resources/config.json", "r") as f:
             config = json.load(f)
 
         self.model = FakeNewsClassifier(**config)
 
         state_dict = torch.load(
-            "app/models/fakenews_model.pth",
+            "app/resources/fakenews_model.pth",
             map_location="cpu"
         )
 
         self.model.load_state_dict(state_dict)
         self.model.eval()
 
-        self.title_tfidf = joblib.load("app/models/tfidf_title.pkl")
-        self.text_tfidf = joblib.load("app/models/tfidf_text.pkl")
+        self.title_tfidf = joblib.load("app/resources/tfidf_title.pkl")
+        self.text_tfidf = joblib.load("app/resources/tfidf_text.pkl")
 
     def tokenize(self, title: str, content: str):
         title_tfidf = self.title_tfidf.transform([title])
