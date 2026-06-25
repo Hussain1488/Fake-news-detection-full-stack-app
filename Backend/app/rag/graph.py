@@ -1,32 +1,38 @@
 from typing import TypedDict
-from langgraph.graph import StateGraph, END
+from langgraph_code.document import Document
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-class GraphState(TypedDict):
-  question: str
-  answer:str
-
-
-def generate_answer(state: GraphState) -> str:
-  question = state.get("question", "")
-
-  return f"Answering question: {question}"
-
-builder = StateGraph(GraphState)
-
-builder.add_node(
-  "generate_answer",
-  generate_answer,
+retriever = Chroma(
+    embedding_function,
+    persist_directory="app/resources/chroma_db",
+    
 )
 
-builder.set_entry_point("generate_answer")
+llm = ChatGoogleGenerativeAI(
+  model="gemini-2.5-flash",
+  temperature=0,
+)
 
-builder.add_edge("generate_answer", "generate_answer")
+class InicialState(TypedDict):
+    question: str
+    document: list[Document]
+    loop_limit: int
+    answer: str
 
 
-graph = builder.compile()
 
-if __name__ == "__main__":
-  resule = graph.invoke({"question": "What is fake news?"})
-  print(result)
+def document_retriever(State: InicialState) -> list[Document]:
+    question = State["question"]
+
+    documents = retriever.invoke(question)
+
+    return documents
 
 
+def generate_answer(State: InicialState) -> str:
+    question = State["question"]
+    documents = State["document"]
+
+    answer = llm.invoke(question, documents)
+
+    return answer
