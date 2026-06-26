@@ -7,5 +7,6 @@ FakeNewsDetection(1).ipynb
 /Backend/app/main.py
 /Backend/app/routes.py
 /Backend/app/routes.py
+/Backend/app/resources/Thesis.pdf
 
 /frontend/.env
