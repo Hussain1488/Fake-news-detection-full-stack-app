@@ -1,17 +1,16 @@
 from typing import TypedDict
 from langgraph_code.document import Document
 from langchain_google_genai import ChatGoogleGenerativeAI
+from retriever import Retriever
 
-retriever = Chroma(
-    embedding_function,
-    persist_directory="app/resources/chroma_db",
-    
-)
+retriever = Retriever()
+
 
 llm = ChatGoogleGenerativeAI(
   model="gemini-2.5-flash",
   temperature=0,
 )
+
 
 class InicialState(TypedDict):
     question: str
@@ -36,3 +35,7 @@ def generate_answer(State: InicialState) -> str:
     answer = llm.invoke(question, documents)
 
     return answer
+
+def run_chat(question: str):
+    data = retriever.retrieve(question)
+    print(data)
