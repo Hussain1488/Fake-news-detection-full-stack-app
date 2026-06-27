@@ -138,7 +138,7 @@ def test_detect():
 
     assert response.status_code == 200
 
-    print(response.json())
+    print(f"this is the result: ", response.json())
 
     # assert "prediction" in data
 

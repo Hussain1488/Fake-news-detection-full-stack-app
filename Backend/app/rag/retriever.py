@@ -18,9 +18,11 @@ class Retriever:
       search_kwargs={"k": k}
     )
 
-  def retrieve(self, query: str):
-    return self.retriever.invoke(query)
+  def retrieve(self, query: str) -> dict:
+    documents = self.retriever.invoke(query)
 
+    return {
+      "document": documents
+    }
 
-retriever = Retriever()
 

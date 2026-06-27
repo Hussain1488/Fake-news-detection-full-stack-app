@@ -1,7 +1,8 @@
 from .preprocessing import main as preprocessing_main
 from .predictor import Predictor
 from .schemas import DetectRequest
-from .rag.graph import 
+from .rag.graph import run_graph
+# from .rag.graph import 
 
 
 def detect(request: DetectRequest):
@@ -21,5 +22,7 @@ def detect(request: DetectRequest):
         "prediction": result
     }
 
-def chat(question: str):
-    # here
+def chat(question: str) -> str:
+    answer = run_graph(question)
+    
+    return answer
