@@ -24,7 +24,7 @@ export async function detect(
 
   try {
     const start = performance.now();
-    const response = await post(process.env.BACKEND_URL + "/api/detect", {
+    const response = await post("/api/detect", {
       title,
       content,
       reasoning,
